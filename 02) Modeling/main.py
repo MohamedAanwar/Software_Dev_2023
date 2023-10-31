@@ -2,7 +2,7 @@ import os
 from ModelBuilder import CNNModelBuilder
 if __name__ == '__main__':
 
-    train_dir = r'E:\python\4rt grade first term\compilers\frames\acute  myna object novelty TA 1 Reo'
+    train_dir = r"D:\Modeling\Frames\chronic crow 2nd green blue object novelty TS h"
 
     input_shape = (128, 128, 3)
     classes_names = [d for d in os.listdir(
@@ -19,5 +19,5 @@ if __name__ == '__main__':
 
     model.train_model(train_dir, batch_size, epochs)
 
-    model_path = r'E:\python\4rt grade first term\compilers\models\acute_myna_object_novelty_TA_1_Reo.h5'
+    model_path = r'D:\Modeling\Traning_Model\chronic crow 2nd green blue object novelty TS h.h5'
     model.save_model(model_path)
