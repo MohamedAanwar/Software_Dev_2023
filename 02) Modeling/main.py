@@ -10,7 +10,7 @@ if __name__ == '__main__':
     num_classes = len(classes_names)
 
     # you can use vgg16,vgg19,resnet,mobilenet
-    model = CNNModelBuilder(input_shape, num_classes,'resnet')
+    model = CNNModelBuilder(input_shape, num_classes,'resnet')  #You can choose model from [mobilenet-resnet-vgg16-vgg19]
 
     model.compile_model()
 
