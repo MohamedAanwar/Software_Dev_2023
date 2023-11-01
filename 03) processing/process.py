@@ -428,10 +428,10 @@ if __name__ == '__main__':
     q=Queue()
     ExcelQ=Queue()
     DependcisQ=Queue()
-    modelPath=r"D:\Modeling\Traning_Model\chronic crow 2nd green blue object novelty TS h.h5"
+    modelPath=r"D:\Modeling\Traning_Model\chronic crow 2nd green blue object novelty TS h.h5" #Training model path - Change to your pc path  
     shape=(128,128)
     
-    folder_path="D:\Modeling\Frames\chronic crow 2nd green blue object novelty TS h" #path for frames folder
+    folder_path="D:\Modeling\Frames\chronic crow 2nd green blue object novelty TS h" #Path for frames folder - Change to your pc path  
     folder_list=[]
 
     for folder in os.listdir(folder_path):
@@ -442,12 +442,14 @@ if __name__ == '__main__':
         
     classes=folder_list
     
+    video_name='chronic crow 2nd green blue object novelty TS h' #Video name - Change to your video name  
+    sheet_path="D:\Modeling" #Path to save excel sheet - Change to your pc path  
+    videoPath=r"D:\Modeling\Video\chronic crow 2nd green blue object novelty TS h.mp4" #path to video - Change to your pc path  
     
-    videoPath=r"D:\Modeling\Video\chronic crow 2nd green blue object novelty TS h.mp4"
-    sheetPath=r"D:\Modeling\chronic crow 2nd green blue object novelty TS h.xlsx"
+    sheet=r"{}\{}.xlsx".format(sheet_path,video_name)
     P=VideoProducer(q,DependcisQ,videoPath,modelPath,classes,shape)
     C=Consumer(q, DependcisQ,ExcelQ)
-    W=ExcelWriter(ExcelQ,sheetPath)
+    W=ExcelWriter(ExcelQ,sheet)
     P.start()
     C.start()
     W.start()
