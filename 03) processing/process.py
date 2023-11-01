@@ -428,33 +428,23 @@ if __name__ == '__main__':
     q=Queue()
     ExcelQ=Queue()
     DependcisQ=Queue()
-    modelPath=r"D:\Modeling\Model_2" #Model path on your pc
-    shape=(178,100)
-   
-    classes= ['Head.None_Leg.Down_Wing.Off_Tail.None', 'Head.Left_Leg.Down_Wing.None_Tail.None',
-                       'Head.None_Leg.Down_Wing.None_Tail.None', 'Head.Left_Leg.None_Wing.None_Tail.None',
-                       'Head.Left_Leg.Up_Wing.Off_Tail.Center', 'Head.None_Leg.Up_Wing.Off_Tail.Center',
-                       'Head.Right_Leg.Down_Wing.Off_Tail.Left', 'Head.Left_Leg.Down_Wing.Off_Tail.None',
-                       'HeadCenter_Leg.Down_Wing.Off_Tail.None', 'Head.Center_Leg.Up_Wing.On_Tail.Center',
-                       'Head.Center_Leg.None_Wing.None_Tail.None', 'Head.None_Leg.None_Wing.None_Tail.None',
-                       'Head.Right_Leg.None_Wing.None_Tail.None', 'Head.Center_Leg.Down_Wing.Off_Tail.None',
-                       'Head.Center_Leg.Down_Wing.On_Tail.Center', 'Head.Right_Leg.Down_Wing.Off_Tail.Center',
-                       'Head.None_Leg.None_Wing.None_Tail.Center', 'Head.Center_Leg.Down_Wing.None_Tail.None',
-                       'Head.Right_Leg.Down_Wing.On_Tail.Center', 'Head.Center_Leg.Down_Wing.Center_Tail.Center',
-                       'Head.Right_Leg.Down_Wing.None_Tail.None', 'Head.Left_Leg.Down_Wing.Off_Tail.Center',
-                       'Head.None_Leg.Down_Wing.Off_Tail.Center', 'Head.Right_Leg.Up_Wing.On_Tail.Center',
-                       'Head.ٌRight_Leg.Down_Wing.Off_Tail.Center', 'Head.Center_Leg.On_Wing.Off_Tail.Center',
-                       'Head.Right_Leg.Up_Wing.Off_Tail.Center', 'Head.Center_Leg.Up_Wing.Off_Tail.None',
-                       'Head.ٌCenter_Leg.Down_Wing.Off_Tail.Center', 'Head.Center_Leg.Up_Wing.Off_Tail.Center',
-                       'Head.Center_Leg.Down_Wing.On_Tail.None', 'Head.None_Leg.Up_Wing.On_Tail.None',
-                       'Head.Right_Leg.Down_Wing.Off_Tail.Center', 'Head.Right_Leg.Down_Wing.On_Tail.Right',
-                       'Head.None_Leg.None_Wing.Off_Tail.Center', 'Head.Center_Leg.Up_Wing.None_Tail.None',
-                       'Head.Center_Leg.Down_Wing.Off_Tail.Center', 'Head.Right_Leg.Down_Wing.Off_Tail.None',
-                       'Head.Left_Leg.Down_Wing.Off_Tail.Right', 'Head.Center_Leg.Down_Wing.Off_Tail.Right']
-    videoName="chronic crow 2nd green blue object novelty TS h" #Video Name
-   
-    videoPath=r"D:\Modeling\chronic crow 2nd green blue object novelty TS h.mp4" #Path of video on your pc
-    sheetPath=r"D:\Modeling\excel" #folder path to save excel sheet on your pc
+    modelPath=r"D:\Modeling\Traning_Model\chronic crow 2nd green blue object novelty TS h.h5"
+    shape=(128,128)
+    
+    folder_path="D:\Modeling\Frames\chronic crow 2nd green blue object novelty TS h" #path for frames folder
+    folder_list=[]
+
+    for folder in os.listdir(folder_path):
+    if os.path.isdir(os.path.join(folder_path,folder)):
+        folder_list.append(folder)
+    else:
+        print("Incorrect Path !!")
+        
+    classes=folder_list
+    
+    
+    videoPath=r"D:\Modeling\Video\chronic crow 2nd green blue object novelty TS h.mp4"
+    sheetPath=r"D:\Modeling\chronic crow 2nd green blue object novelty TS h.xlsx"
     P=VideoProducer(q,DependcisQ,videoPath,modelPath,classes,shape)
     C=Consumer(q, DependcisQ,ExcelQ)
     W=ExcelWriter(ExcelQ,sheetPath)
