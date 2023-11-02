@@ -435,10 +435,10 @@ if __name__ == '__main__':
     folder_list=[]
 
     for folder in os.listdir(folder_path):
-    if os.path.isdir(os.path.join(folder_path,folder)):
-        folder_list.append(folder)
-    else:
-        print("Incorrect Path !!")
+    	if os.path.isdir(os.path.join(folder_path,folder)):
+        	folder_list.append(folder)
+    	else:
+        	print("Incorrect Path !!")
         
     classes=folder_list
     
