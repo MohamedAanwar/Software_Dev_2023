@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class Details(Enum):
     center = "center"
     right = "right"
