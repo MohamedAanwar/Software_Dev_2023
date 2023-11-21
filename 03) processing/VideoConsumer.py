@@ -122,7 +122,7 @@ class VideoConsumer(threading.Thread, Cosnumer):
                 if diff is not None:
                     # new_row = None
                     for birdPart in diff.keys():
-                        if not dict_pose_change[birdPart]:
+                        if not dict_pose_change[birdPart] and ((len(dict_frame_time) - index) != 2):
                             # first move so record the start time
                             dict_pose_start_time[birdPart] = 0
                             dict_pose_change[birdPart] = True
