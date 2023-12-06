@@ -100,7 +100,6 @@ class VideoConsumer(threading.Thread, Cosnumer):
 
         tbl_movement = []
 
-        dict_pose_change = {head: False, leg: False, wing: False, tail: False}
         dict_pose_start_time = {head: 0.0, leg: 0.0, wing: 0.0, tail: 0.0}
         dict_pose_end_time = {head: 0.0, leg: 0.0, wing: 0.0, tail: 0.0}
         list_of_sorted_keys = list(sorted(dict_frame_time))
@@ -120,100 +119,94 @@ class VideoConsumer(threading.Thread, Cosnumer):
                     diff = birds_pose_next
 
                 if diff is not None:
-                    # new_row = None
                     for birdPart in diff.keys():
-                        if not dict_pose_change[birdPart] and ((len(dict_frame_time) - index) != 2):
-                            # first move so record the start time
-                            dict_pose_start_time[birdPart] = 0
-                            dict_pose_change[birdPart] = True
-                        else:
-                            # if this the second move for the same part then record the end time
-                            # and caculate the time interval of the move
-                            dict_pose_end_time[birdPart] = next_time
+                        # if this the second move for the same part then record the end time
+                        # and caculate the time interval of the move
+                        dict_pose_end_time[birdPart] = next_time
 
-                            new_row = row.copy()
-                            time = Time.formulateTime(next_time)
-                            new_row["Time"] = time
-                            new_row[f"{str(birdPart)} status"] = f"{diff[birdPart]}"
-                            new_row[
-                                f"{str(birdPart)} movement"
-                            ] = f"{birds_pose_curr[birdPart]}-{diff[birdPart]}"
+                        new_row = row.copy()
+                        time = Time.formulateTime(next_time)
+                        new_row["Time"] = time
+                        new_row[f"{str(birdPart)} status"] = f"{diff[birdPart]}"
+                        new_row[
+                            f"{str(birdPart)} movement"
+                        ] = f"{birds_pose_curr[birdPart]}-{diff[birdPart]}"
 
-                            motionTime = Time.subtractTimes(
-                                dict_pose_end_time[birdPart],
-                                dict_pose_start_time[birdPart],
-                            )
-                            new_row[f"{str(birdPart)} movement time span"] = motionTime
+                        motionTime = Time.subtractTimes(
+                            dict_pose_end_time[birdPart],
+                            dict_pose_start_time[birdPart],
+                        )
+                        new_row[f"{str(birdPart)} movement time span"] = motionTime
+
+                        if (
+                            len(tbl_movement) != 0
+                            and tbl_movement[len(tbl_movement) - 1]["Time"]
+                            == new_row["Time"]
+                        ):
+                            if (
+                                tbl_movement[len(tbl_movement) - 1]["head movement"]
+                                == ""
+                                and new_row["head movement"] != ""
+                            ):
+                                tbl_movement[len(tbl_movement) - 1][
+                                    "head movement"
+                                ] = new_row["head movement"]
+                                tbl_movement[len(tbl_movement) - 1][
+                                    "head movement time span"
+                                ] = new_row["head movement time span"]
+                                tbl_movement[len(tbl_movement) - 1][
+                                    "head status"
+                                ] = new_row["head status"]
 
                             if (
-                                len(tbl_movement) != 0
-                                and tbl_movement[len(tbl_movement) - 1]["Time"]
-                                == new_row["Time"]
+                                tbl_movement[len(tbl_movement) - 1]["leg movement"]
+                                == ""
+                                and new_row["leg movement"] != ""
                             ):
-                                if (
-                                    tbl_movement[len(tbl_movement) - 1]["head movement"]
-                                    == ""
-                                    and new_row["head movement"] != ""
-                                ):
-                                    tbl_movement[len(tbl_movement) - 1][
-                                        "head movement"
-                                    ] = new_row["head movement"]
-                                    tbl_movement[len(tbl_movement) - 1][
-                                        "head movement time span"
-                                    ] = new_row["head movement time span"]
-                                    tbl_movement[len(tbl_movement) - 1][
-                                        "head status"
-                                    ] = new_row["head status"]
+                                tbl_movement[len(tbl_movement) - 1][
+                                    "leg movement"
+                                ] = new_row["leg movement"]
+                                tbl_movement[len(tbl_movement) - 1][
+                                    "leg movement time span"
+                                ] = new_row["leg movement time span"]
+                                tbl_movement[len(tbl_movement) - 1][
+                                    "leg status"
+                                ] = new_row["leg status"]
 
-                                if (
-                                    tbl_movement[len(tbl_movement) - 1]["leg movement"]
-                                    == ""
-                                    and new_row["leg movement"] != ""
-                                ):
-                                    tbl_movement[len(tbl_movement) - 1][
-                                        "leg movement"
-                                    ] = new_row["leg movement"]
-                                    tbl_movement[len(tbl_movement) - 1][
-                                        "leg movement time span"
-                                    ] = new_row["leg movement time span"]
-                                    tbl_movement[len(tbl_movement) - 1][
-                                        "leg status"
-                                    ] = new_row["leg status"]
+                            if (
+                                tbl_movement[len(tbl_movement) - 1]["wing movement"]
+                                == ""
+                                and new_row["wing movement"] != ""
+                            ):
+                                tbl_movement[len(tbl_movement) - 1][
+                                    "wing movement"
+                                ] = new_row["wing movement"]
+                                tbl_movement[len(tbl_movement) - 1][
+                                    "wing movement time span"
+                                ] = new_row["wing movement time span"]
+                                tbl_movement[len(tbl_movement) - 1][
+                                    "wing status"
+                                ] = new_row["wing status"]
 
-                                if (
-                                    tbl_movement[len(tbl_movement) - 1]["wing movement"]
-                                    == ""
-                                    and new_row["wing movement"] != ""
-                                ):
-                                    tbl_movement[len(tbl_movement) - 1][
-                                        "wing movement"
-                                    ] = new_row["wing movement"]
-                                    tbl_movement[len(tbl_movement) - 1][
-                                        "wing movement time span"
-                                    ] = new_row["wing movement time span"]
-                                    tbl_movement[len(tbl_movement) - 1][
-                                        "wing status"
-                                    ] = new_row["wing status"]
+                            if (
+                                tbl_movement[len(tbl_movement) - 1]["tail movement"]
+                                == ""
+                                and new_row["tail movement"] != ""
+                            ):
+                                tbl_movement[len(tbl_movement) - 1][
+                                    "tail movement"
+                                ] = new_row["tail movement"]
+                                tbl_movement[len(tbl_movement) - 1][
+                                    "tail movement time span"
+                                ] = new_row["tail movement time span"]
+                                tbl_movement[len(tbl_movement) - 1][
+                                    "tail status"
+                                ] = new_row["tail status"]
 
-                                if (
-                                    tbl_movement[len(tbl_movement) - 1]["tail movement"]
-                                    == ""
-                                    and new_row["tail movement"] != ""
-                                ):
-                                    tbl_movement[len(tbl_movement) - 1][
-                                        "tail movement"
-                                    ] = new_row["tail movement"]
-                                    tbl_movement[len(tbl_movement) - 1][
-                                        "tail movement time span"
-                                    ] = new_row["tail movement time span"]
-                                    tbl_movement[len(tbl_movement) - 1][
-                                        "tail status"
-                                    ] = new_row["tail status"]
+                        else:
+                            tbl_movement.append(new_row)
 
-                            else:
-                                tbl_movement.append(new_row)
-
-                            dict_pose_start_time[birdPart] = next_time
+                        dict_pose_start_time[birdPart] = next_time
 
         self.excelQueue.put(tbl_movement)
         self.excelQueue.put(None)
